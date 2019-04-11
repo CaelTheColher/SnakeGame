@@ -20,4 +20,10 @@ class Body {
       this.y += this.dir.getY() * scale;
     }
   }
+  
+  //Debug
+  String toString() {
+    return "{x:"+this.x+",y:"+this.y+"}";
+  }
+  
 }

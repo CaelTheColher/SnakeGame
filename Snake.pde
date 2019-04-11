@@ -18,9 +18,11 @@ class Snake extends Body {
   }
 
   void update() {
-    if (!this.body.isEmpty()) {
-      Body last = this.body.remove(this.body.size()-1);
-      this.body.add(0, last);
+    if (floor(frameCount % 10) == 0) {
+      if (!this.body.isEmpty()) {
+        body.remove(0);
+        this.body.add(new Body(this.x, this.y, Direction.None));
+      }
     }
     for (Body bodyPart : body) {
       bodyPart.update();
@@ -34,7 +36,7 @@ class Snake extends Body {
       if (!((this.y + scale) <= this.game.food.y || this.y >= (this.game.food.y + scale))) {
         this.points += this.game.food.points;
         this.game.food = new Food(1);
-        this.body.add(0, new Body(this.x, this.y, Direction.None));
+        this.body.add(new Body(this.x, this.y, Direction.None));
       }
     }
   }
@@ -42,6 +44,15 @@ class Snake extends Body {
   void wallCollision() {
     if (this.x < 0 || this.y < 0 || (this.x + scale) > width || (this.y + scale) > height) {
       this.game.state = State.DEAD;
+    }
+  }
+  
+  void bodyCollision() {
+    for (Body bodyPart : body) {
+      //println(dist(this.x, this.y, bodyPart.x, bodyPart.y));
+      if (dist(this.x, this.y, bodyPart.x, bodyPart.y) < 1) {
+        this.game.state = State.DEAD;
+      }
     }
   }
 }

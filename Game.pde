@@ -14,10 +14,11 @@ class Game {
   void update() {
     food.show();
     snake.score++;
-    snake.foodCollision();
     snake.wallCollision();
-    checkState();
+    snake.foodCollision();
+    //snake.bodyCollision();
     snake.update();
+    checkState();
     snake.show();
     textSize(20);
     text("Points: " + snake.points, 0, 20);
