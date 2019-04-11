@@ -19,8 +19,8 @@ class Snake extends Body {
 
   void update() {
     if (!this.body.isEmpty()) {
-      Body last = this.body.remove(0);
-      this.body.add(last);
+      Body last = this.body.remove(this.body.size()-1);
+      this.body.add(0, last);
     }
     for (Body bodyPart : body) {
       bodyPart.update();
@@ -34,7 +34,7 @@ class Snake extends Body {
       if (!((this.y + scale) <= this.game.food.y || this.y >= (this.game.food.y + scale))) {
         this.points += this.game.food.points;
         this.game.food = new Food(1);
-        this.body.add(new Body(this.x, this.y, Direction.None));
+        this.body.add(0, new Body(this.x, this.y, Direction.None));
       }
     }
   }

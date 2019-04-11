@@ -4,7 +4,6 @@ class Food {
   int points;
 
   Food(int points) {
-    //the constrain function makes sure the food doesn't spawn a little off-bounds
     this.x = floor(random(width/scale)) * scale;
     this.y = floor(random(height/scale)) * scale;
     this.points = points;
