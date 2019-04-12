@@ -3,31 +3,30 @@ class Game {
   Food food;
   State state;
 
-  Game() {}
+  Game() {
+  }
 
   void startGame() {
-    snake = new Snake(this, width/2, height/2);
-    food = new Food(1);
-    state = State.PLAYING;
+    this.snake = new Snake(this, width/2, height/2);
+    this.food = new Food(1);
+    this.state = State.PLAYING;
   }
 
   void update() {
     food.show();
-    snake.score++;
-    snake.wallCollision();
-    snake.foodCollision();
-    //snake.bodyCollision();
     snake.update();
-    checkState();
     snake.show();
+    this.checkState();
     textSize(20);
     text("Points: " + snake.points, 0, 20);
     text("Score: " + snake.score, 0, 40);
+    text("FPS: " + floor(frameRate), 0, 60);
   }
 
   void checkState() {
     switch(state) {
     case DEAD:
+      println(snake.points);
       this.startGame();
     default: 
       break;
