@@ -10,7 +10,7 @@ class Body {
   }
 
   void show() {
-    fill(20);
+    fill(20, 20, 20);
     rect(this.x, this.y, scale, scale);
   }
 

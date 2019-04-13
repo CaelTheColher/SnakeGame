@@ -1,11 +1,12 @@
 final float scale = 20;
 final int populationSize = 200;
+int generation = 1;
 ArrayList<Game> population = new ArrayList<Game>();
 
 void setup() {
   size(600, 600);
   for (int i=0; i < populationSize; i++) {
-    population.add(new Game());
+    population.add(new Game(true));
   }
 }
 
@@ -20,6 +21,7 @@ void draw() {
 
   textSize(20);
   text("FPS: " + floor(frameRate), 0, 20);
+  text("Generation: " + generation, 0, 40);
 }
 
 boolean allDead() {

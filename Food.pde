@@ -2,7 +2,7 @@ class Food {
   float x;
   float y;
   int points;
-
+  
   Food(int points) {
     this.x = floor(random(width/scale)) * scale;
     this.y = floor(random(height/scale)) * scale;
