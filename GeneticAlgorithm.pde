@@ -1,6 +1,5 @@
 void nextGeneration() {
-  calculateFitness();
-
+  calcFitness();
   ArrayList<Game> newPopulation = new ArrayList<Game>();
   for (int i=0; i < populationSize; i++) {
     NeuralNetwork parent1 = select().snake.brain;
@@ -14,18 +13,13 @@ void nextGeneration() {
   generation++;
 }
 
-void calculateFitness() {
-  int sum = 0;
-  for (Game game: population) {
-    sum += game.snake.points * game.snake.score;
-  }
-  for (Game game: population) {
-    game.snake.fitness = (game.snake.points * game.snake.score) / sum;
+void calcFitness() {
+  for (Game game : population) {
+    game.snake.calcFitness();
   }
 }
 
 Game select() {
-
   int fitnessSum = 0;
   for (Game game : population) {
     fitnessSum += game.snake.fitness;

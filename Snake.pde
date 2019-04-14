@@ -3,7 +3,7 @@ class Snake extends Body {
   int points = 0;
   int score = 0;
   int fitness = 0;
-  boolean dead = false;
+  int remaining = 100;
   ArrayList<Body> body;
   NeuralNetwork brain;
 
@@ -26,6 +26,7 @@ class Snake extends Body {
     this.wallCollision();
     this.foodCollision();
     if (floor(frameCount % 10) == 0) {
+      this.think();
       if (!this.body.isEmpty()) {
         body.remove(0);
         this.body.add(new Body(this.x, this.y, Direction.None));
@@ -34,27 +35,30 @@ class Snake extends Body {
         bodyPart.update();
       }
       super.update();
+      this.remaining--;
       //collision detection needs to be after the snake update so it doesn't false trigger 
       this.bodyCollision();
     }
+    this.timeOut();
   }
 
   void think() {
     //inputs to the neural network
-    double[] inputs = new double[8];
+    double[] inputs = new double[9];
     //snake location
     inputs[0] = this.x / width;
     inputs[1] = this.y / height;
     //snake direction
-    inputs[2] = this.dir.getX();
-    inputs[3] = this.dir.getY();
+    inputs[2] = this.dir.getX() / width;
+    inputs[3] = this.dir.getY() / height;
     //food location
     inputs[4] = this.game.food.x / width;
     inputs[5] = this.game.food.y / height;
+    inputs[6] = dist(this.x,this.y, this.game.food.x, this.game.food.y) / width;
     //distance to the closest wall in a straight line
-    inputs[6] = 0;
-    //distance to the closest body in a straight line
     inputs[7] = 0;
+    //distance to the closest body in a straight line
+    inputs[8] = 0;
     //outputs from the neural network
     double[] outputs = this.brain.guess(inputs);
     //picks the move
@@ -84,6 +88,10 @@ class Snake extends Body {
     }
   }
 
+  void calcFitness() {
+    this.fitness = (this.score / 2) + floor(pow(2, this.points));
+  }
+
   void wallCollision() {
     if (this.x < 0 || this.y < 0 || (this.x + scale) > width || (this.y + scale) > height) {
       this.game.state = State.DEAD;
@@ -95,6 +103,7 @@ class Snake extends Body {
       this.points += this.game.food.points;
       this.game.food = new Food(1);
       this.body.add(new Body(this.x, this.y, Direction.None));
+      this.remaining += 100;
     }
   }
 
@@ -104,5 +113,9 @@ class Snake extends Body {
         this.game.state = State.DEAD;
       }
     }
+  }
+
+  void timeOut() {
+    if (this.remaining < 0) this.game.state = State.DEAD;
   }
 }

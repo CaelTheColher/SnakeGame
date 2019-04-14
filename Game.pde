@@ -4,19 +4,19 @@ class Game {
   State state;
   Boolean show;
   Game(boolean show) {
-    this(new NeuralNetwork(8, 2, 8, 4), show);
+    this(new NeuralNetwork(9, 4, 8, 4), show);
   }
 
   Game(NeuralNetwork brain, boolean show) {
     this.snake = new Snake(this, width/2, height/2, brain);
-    this.food = new Food(1);
+    this.food = new Food(10);
     this.state = State.PLAYING;
     this.show = show;
   }
 
 
   void update() {
-    snake.think();
+    //snake.think();
     snake.update();
     if (show) {
       food.show();

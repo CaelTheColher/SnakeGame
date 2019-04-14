@@ -1,5 +1,5 @@
 final float scale = 20;
-final int populationSize = 200;
+final int populationSize = 700;
 int generation = 1;
 ArrayList<Game> population = new ArrayList<Game>();
 
@@ -8,6 +8,7 @@ void setup() {
   for (int i=0; i < populationSize; i++) {
     population.add(new Game(true));
   }
+  population.get(0).show = true;
 }
 
 void draw() {
